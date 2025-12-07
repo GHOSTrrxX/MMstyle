@@ -183,7 +183,7 @@ export default function DailyLog() {
 
                     {/* Stylist Selection */}
                     <div>
-                        <label className="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">Estilista</label>
+                        <label className="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">Colaborador</label>
                         <div className="relative">
                             <User className="absolute left-4 top-3.5 text-gold-500 w-5 h-5" />
                             <select
@@ -192,7 +192,7 @@ export default function DailyLog() {
                                 onChange={(e) => setFormData({ ...formData, employee_id: e.target.value })}
                                 className="w-full bg-black border border-gray-700 rounded-lg pl-12 pr-4 py-3 text-white focus:border-gold-500 focus:outline-none transition-colors appearance-none"
                             >
-                                <option value="">Selecione o Estilista...</option>
+                                <option value="">Selecione o Colaborador...</option>
                                 {employees.map(emp => (
                                     <option key={emp.id} value={emp.id}>{emp.name}</option>
                                 ))}
@@ -271,7 +271,7 @@ export default function DailyLog() {
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="bg-gray-900 p-4 rounded-lg border border-gray-800">
                                     <p className="text-gray-400 text-xs uppercase mb-1">
-                                        Estilista ({calculation.rate}%)
+                                        Colaborador ({calculation.rate}%)
                                         {formData.service_id && <span className="text-gold-500 ml-1 text-[10px]">(Serviço)</span>}
                                     </p>
                                     <p className="text-xl font-bold text-white">R$ {calculation.employeeAmount.toFixed(2)}</p>

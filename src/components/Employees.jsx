@@ -105,12 +105,12 @@ export default function Employees() {
         <div className="max-w-4xl mx-auto">
             <div className="bg-gray-900 rounded-xl p-6 shadow-2xl border border-gray-800 mb-8">
                 <h2 className="text-2xl font-bold text-gold-500 mb-6 flex items-center gap-2">
-                    <Plus className="w-6 h-6" /> Adicionar Novo Estilista
+                    <Plus className="w-6 h-6" /> Adicionar Novo Colaborador
                 </h2>
                 <form onSubmit={handleAddEmployee} className="flex flex-col md:flex-row gap-4">
                     <input
                         type="text"
-                        placeholder="Nome do Estilista"
+                        placeholder="Nome do Colaborador"
                         value={newEmployee.name}
                         onChange={(e) => setNewEmployee({ ...newEmployee, name: e.target.value })}
                         className="flex-1 bg-black border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-gold-500 focus:outline-none transition-colors"
@@ -142,7 +142,7 @@ export default function Employees() {
                 {loading ? (
                     <div className="p-8 text-center text-gray-500">Carregando equipe...</div>
                 ) : employees.length === 0 ? (
-                    <div className="p-8 text-center text-gray-500">Nenhum estilista adicionado ainda.</div>
+                    <div className="p-8 text-center text-gray-500">Nenhum colaborador adicionado ainda.</div>
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full text-left">

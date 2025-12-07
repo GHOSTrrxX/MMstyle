@@ -52,6 +52,19 @@ function App() {
       return <Login />
     }
 
+    const role = session?.user?.user_metadata?.role || 'user'
+    const isAdmin = role === 'admin'
+
+    // Define allowed tabs based on role
+    const allowedTabs = isAdmin
+      ? ['dailyLog', 'employees', 'services', 'reports']
+      : ['dailyLog', 'services']
+
+    // Security check: if user tries to access a restricted tab, show Access Denied or fallback
+    if (!allowedTabs.includes(activeTab)) {
+      return <DailyLog />
+    }
+
     switch (activeTab) {
       case 'employees':
         return <Employees />
@@ -68,14 +81,22 @@ function App() {
   // If not logged in, render only the content (which will be Login or Error)
   // This avoids showing the header/nav when on Login screen
   if (session && supabase) {
+    const role = session?.user?.user_metadata?.role || 'user'
+    const isAdmin = role === 'admin'
+
     return (
       <div className="min-h-screen bg-black text-gray-100 font-sans selection:bg-gold-500 selection:text-black">
         {/* Header */}
         <header className="bg-gray-900 border-b border-gray-800 sticky top-0 z-50">
           <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-gold-500 tracking-tight">
-              Marcia Mata <span className="text-gray-500 text-sm font-normal ml-2">Style Manager</span>
-            </h1>
+            <div>
+              <h1 className="text-2xl font-bold text-gold-500 tracking-tight">
+                Marcia Mata <span className="text-gray-500 text-sm font-normal ml-2">Style Manager</span>
+              </h1>
+              <p className="text-xs text-gray-600 mt-1 uppercase tracking-wider">
+                Logado como: <span className={isAdmin ? "text-gold-500 font-bold" : "text-gray-400"}>{role === 'admin' ? 'Administrador' : 'Colaborador'}</span>
+              </p>
+            </div>
             <button
               onClick={handleSignOut}
               className="text-gray-400 hover:text-white flex items-center gap-2 text-sm transition-colors"
@@ -95,15 +116,19 @@ function App() {
             >
               <ClipboardList size={18} /> Registro Diário
             </button>
-            <button
-              onClick={() => setActiveTab('employees')}
-              className={`pb-4 px-2 text-sm font-bold uppercase tracking-wider transition-colors border-b-2 flex items-center gap-2 ${activeTab === 'employees'
-                ? 'border-gold-500 text-white'
-                : 'border-transparent text-gray-500 hover:text-gray-300'
-                }`}
-            >
-              <Users size={18} /> Funcionários
-            </button>
+
+            {isAdmin && (
+              <button
+                onClick={() => setActiveTab('employees')}
+                className={`pb-4 px-2 text-sm font-bold uppercase tracking-wider transition-colors border-b-2 flex items-center gap-2 ${activeTab === 'employees'
+                  ? 'border-gold-500 text-white'
+                  : 'border-transparent text-gray-500 hover:text-gray-300'
+                  }`}
+              >
+                <Users size={18} /> Funcionários
+              </button>
+            )}
+
             <button
               onClick={() => setActiveTab('services')}
               className={`pb-4 px-2 text-sm font-bold uppercase tracking-wider transition-colors border-b-2 flex items-center gap-2 ${activeTab === 'services'
@@ -113,15 +138,18 @@ function App() {
             >
               <Scissors size={18} /> Serviços
             </button>
-            <button
-              onClick={() => setActiveTab('reports')}
-              className={`pb-4 px-2 text-sm font-bold uppercase tracking-wider transition-colors border-b-2 flex items-center gap-2 ${activeTab === 'reports'
-                ? 'border-gold-500 text-white'
-                : 'border-transparent text-gray-500 hover:text-gray-300'
-                }`}
-            >
-              <BarChart3 size={18} /> Relatórios
-            </button>
+
+            {isAdmin && (
+              <button
+                onClick={() => setActiveTab('reports')}
+                className={`pb-4 px-2 text-sm font-bold uppercase tracking-wider transition-colors border-b-2 flex items-center gap-2 ${activeTab === 'reports'
+                  ? 'border-gold-500 text-white'
+                  : 'border-transparent text-gray-500 hover:text-gray-300'
+                  }`}
+              >
+                <BarChart3 size={18} /> Relatórios
+              </button>
+            )}
           </nav>
         </header>
 
