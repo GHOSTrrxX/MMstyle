@@ -28,7 +28,16 @@ function App() {
   }, [])
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut()
+    try {
+      await supabase.auth.signOut()
+    } catch (error) {
+      console.error('Error signing out:', error)
+    } finally {
+      // Force UI update
+      setSession(null)
+      // Optional: reload to clear any persistent state quirks
+      // window.location.reload() 
+    }
   }
 
   const renderContent = () => {
